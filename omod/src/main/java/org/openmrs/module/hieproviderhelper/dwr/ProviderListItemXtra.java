@@ -63,6 +63,8 @@ public class ProviderListItemXtra {
 		}
 		if (!ifFound)
 			setRegistryStatus("Not In Registry");
+		else
+			setRegistryStatus("Found");
 
 		// ProviderAttributeType regStatusType =
 		// Context.getProviderService().getProviderAttributeType(4);

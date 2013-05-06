@@ -40,17 +40,11 @@ public class HPDClient {
 	public static String soapEnvelopeEnd = "</soap-env:Envelope>";
 	
 	
-	public SOAPMessage createHPDRequest(){
+	public SOAPMessage createHPDRequest(List<String> providerIdList){
 	String messageEnvelopeStart = xmlMessageHeader + soapEnvelopeMessageHeader + soapEnvelopeBody + batchRequest;
 	String messageEnvelopeEnd = batchRequestEnd + soapEnvelopeBodyEnd + soapEnvelopeEnd;
-	
-	HPDClient client = new HPDClient();
 
-	List<String> providerIds = new ArrayList<String>();
-	providerIds.add("123");
-	providerIds.add("234");
-	providerIds.add("456");
-	String searchRequestString = client.generateSearchRequestString(providerIds);
+	String searchRequestString = generateSearchRequestString(providerIdList);
 	
 	String dsmlSoapMessage = messageEnvelopeStart + searchRequestString + messageEnvelopeEnd;
 	
