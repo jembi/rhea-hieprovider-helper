@@ -1,9 +1,12 @@
 package org.openmrs.module.hieproviderhelper.dwr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+import javax.xml.soap.SOAPMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +14,7 @@ import org.openmrs.Provider;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.messagesource.MessageSourceService;
+import org.openmrs.module.hieproviderhelper.hpdmessage.HPDClient;
 import org.openmrs.web.dwr.DWREncounterService;
 
 public class DWRProviderServiceXtra {
@@ -87,7 +91,22 @@ private final Log log = LogFactory.getLog(DWREncounterService.class);
 	}
 	
 	public void validate(){
-		System.out.println("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+		List<Provider> providerList = Context.getProviderService().getAllProviders();
+		List<String> providerids = new ArrayList<String>();
+		
+		for(Provider provider : providerList){
+			String providerId = provider.getPerson().getAttribute("EPID").getValue();
+			
+			if(providerId == null){
+				providerId = provider.getIdentifier();
+			}
+			
+			providerids.add(providerId);
+		}
+		
+		HPDClient hpdClient = new HPDClient();
+		SOAPMessage message = hpdClient.createHPDRequest(providerids);
+		
 	}
 
 }
